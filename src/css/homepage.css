@@ -1,5 +1,10 @@
 html {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: 'Book Antiqua', 'Palatino Linotype', Palatino, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+body {
+  background-color:rgb(25,25,25);
+  color:#fff;
 }
 
 table {
@@ -16,7 +21,7 @@ td {
 }
 
 tbody tr:nth-child(odd) {
-  background-color: whitesmoke;
+  background-color: rgb(50,50,50);
 }
 
 .form {
@@ -32,12 +37,12 @@ tbody tr:nth-child(odd) {
   display:inline-block;
   padding:0.3em 1.2em;
   margin:0 0.1em 0.1em 0;
-  border:0.16em solid rgba(255,255,255,0);
-  border-radius: 2em;
+  border:0.08em solid rgb(125, 125, 125);
+  border-radius: 0.5em;
   box-sizing: border-box;
   text-decoration:none;
-  color:#FFFFFF;
-  background-color: #4e9af1;
+  color:rgb(200,175,30);
+  background-color: rgba(130, 15, 15, 0.9);
   text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
   text-align:center;
 }
