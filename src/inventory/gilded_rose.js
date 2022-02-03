@@ -21,50 +21,69 @@ const items = [
 
 updateQuality(items);
 */
+const LEGENDARY_ITEMS = ['Sulfuras, Hand of Ragnaros']
+const SPECIAL_ITEMS = ['Aged Brie', 'Backstage passes to a TAFKAL80ETC concert'];
+
+const incrementQuality = (item, incrementation = 1) => item.quality = item.quality + incrementation
+
+const decrementQuality = (item, decrementation = 1) => {
+  let newValue = item.quality - decrementation
+
+  if (newValue < 0) {
+    newValue = 0
+    return
+  }
+
+  item.quality = newValue
+}
+
+const checkNormalItems = item => {
+  if (item.sell_in < 0) {
+    decrementQuality(item, 2)
+    return
+  }
+  decrementQuality(item)
+}
+
+const checkSpecialItems = item => {
+  if (item.quality < 50) {
+    if (item.name === 'Aged Brie')
+      incrementQuality(item, 2)
+
+    if (item.name == 'Backstage passes to a TAFKAL80ETC concert')
+      switch(true) {
+        case item.sell_in < 0:
+          item.quality = 0;
+        break;
+        case item.sell_in < 5:
+          incrementQuality(item, 3)
+        break;
+        case item.sell_in < 10:
+          incrementQuality(item, 2);
+        break;
+        default:
+          incrementQuality(item);
+        break;
+      }
+  }
+}
+
+const checkLegendaryItems = item => {
+  item.quality = item.quality
+}
+
 export function updateQuality(items) {
   for (var i = 0; i < items.length; i++) {
-    if (items[i].name != 'Aged Brie' && items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {
-      if (items[i].quality > 0) {
-        if (items[i].name != 'Sulfuras, Hand of Ragnaros') {
-          items[i].quality = items[i].quality - 1
-        }
-      }
-    } else {
-      if (items[i].quality < 50) {
-        items[i].quality = items[i].quality + 1
-        if (items[i].name == 'Backstage passes to a TAFKAL80ETC concert') {
-          if (items[i].sell_in < 11) {
-            if (items[i].quality < 50) {
-              items[i].quality = items[i].quality + 1
-            }
-          }
-          if (items[i].sell_in < 6) {
-            if (items[i].quality < 50) {
-              items[i].quality = items[i].quality + 1
-            }
-          }
-        }
-      }
-    }
-    if (items[i].name != 'Sulfuras, Hand of Ragnaros') {
+    if (!LEGENDARY_ITEMS.includes(items[i].name)) {
       items[i].sell_in = items[i].sell_in - 1;
     }
-    if (items[i].sell_in < 0) {
-      if (items[i].name != 'Aged Brie') {
-        if (items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {
-          if (items[i].quality > 0) {
-            if (items[i].name != 'Sulfuras, Hand of Ragnaros') {
-              items[i].quality = items[i].quality - 1
-            }
-          }
-        } else {
-          items[i].quality = items[i].quality - items[i].quality
-        }
-      } else {
-        if (items[i].quality < 50) {
-          items[i].quality = items[i].quality + 1
-        }
-      }
-    }
+
+    if (SPECIAL_ITEMS.includes(items[i].name))
+      checkSpecialItems(items[i])
+
+    else if (LEGENDARY_ITEMS.includes(items[i].name))
+      checkLegendaryItems(items[i])
+      
+    else checkNormalItems(items[i])
   }
 }
