@@ -23,55 +23,47 @@ updateQuality(items);
 */
 const LEGENDARY_ITEMS = ['Sulfuras, Hand of Ragnaros']
 const SPECIAL_ITEMS = ['Aged Brie', 'Backstage passes to a TAFKAL80ETC concert'];
+const MAX_QUALITY = 50
+const MIN_QUALITY = 0
 
-const incrementQuality = (item, incrementation = 1) => {
-  let newValue = item.quality + incrementation
-
-  if (newValue > 50) {
-    newValue = 50
+const modifyQuality = (item, modification) => {
+  let newValue = item.quality + modification
+  if (newValue > MAX_QUALITY) {
+    newValue = MAX_QUALITY
     return
   }
-
-  item.quality = newValue
-}
-
-const decrementQuality = (item, decrementation = 1) => {
-  let newValue = item.quality - decrementation
-
-  if (newValue < 0) {
-    newValue = 0
+  if (newValue < MIN_QUALITY) {
+    newValue = MIN_QUALITY
     return
   }
-
-  item.quality = newValue
+  item.quality = newValue;
 }
 
 const checkNormalItems = item => {
   if (item.sell_in < 0) {
-    decrementQuality(item, 2)
+    modifyQuality(item, -2)
     return
   }
-  decrementQuality(item)
+  modifyQuality(item, -1)
 }
 
 const checkSpecialItems = item => {
   if (item.name === 'Aged Brie')
-    if (item.sell_in < 0) incrementQuality(item, 2)
-    else incrementQuality(item)
-
+    if (item.sell_in < 0) modifyQuality(item, 2)
+    else modifyQuality(item, 1)
   if (item.name == 'Backstage passes to a TAFKAL80ETC concert')
     switch(true) {
       case item.sell_in < 0:
         item.quality = 0;
       break;
       case item.sell_in < 5:
-        incrementQuality(item, 3)
+        modifyQuality(item, 3)
       break;
       case item.sell_in < 10:
-        incrementQuality(item, 2)
+        modifyQuality(item, 2)
       break;
       default:
-        incrementQuality(item)
+        modifyQuality(item, 1)
       break;
     }
 }
@@ -85,13 +77,10 @@ export function updateQuality(items) {
     if (!LEGENDARY_ITEMS.includes(items[i].name)) {
       items[i].sell_in = items[i].sell_in - 1;
     }
-
     if (SPECIAL_ITEMS.includes(items[i].name))
       checkSpecialItems(items[i])
-
     else if (LEGENDARY_ITEMS.includes(items[i].name))
       checkLegendaryItems(items[i])
-      
     else checkNormalItems(items[i])
   }
 }
