@@ -22,7 +22,7 @@ describe('`updateQuality`', () => {
   it('increments quality by 2 for Aged Brie', () => {
     const agedBrie = new Item('Aged Brie', 2, 0);
     updateQuality([agedBrie]);
-    expect(agedBrie.quality).toBe(1);
+    expect(agedBrie.quality).toBe(2);
   });
 
   it('quality of Aged Brie is never more than 50', () => {
@@ -37,7 +37,7 @@ describe('`updateQuality`', () => {
     expect(sulfuras.quality).toBe(80);
   });
 
-  it('increments quality for TAFKAL80ETC passes when sell_in is more than 10', () => {
+  it('increments quality by 1 for TAFKAL80ETC passes when sell_in is more than 10', () => {
     const passes = new Item('Backstage passes to a TAFKAL80ETC concert', 11, 20);
     updateQuality([passes]);
     expect(passes.quality).toBe(21);
