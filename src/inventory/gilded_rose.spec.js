@@ -60,4 +60,10 @@ describe('`updateQuality`', () => {
     updateQuality([passes]);
     expect(passes.quality).toBe(0);
   });
+
+  it('incremenets quality by 2 for Aged Brie with sell_in less than 0 and quality less than 50', () => {
+    const standardItem = new Item('Aged Brie', -5, 45);
+    updateQuality([standardItem]);
+    expect(standardItem.quality).toBe(47);
+  });
 });
