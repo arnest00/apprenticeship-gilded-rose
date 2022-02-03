@@ -24,7 +24,16 @@ updateQuality(items);
 const LEGENDARY_ITEMS = ['Sulfuras, Hand of Ragnaros']
 const SPECIAL_ITEMS = ['Aged Brie', 'Backstage passes to a TAFKAL80ETC concert'];
 
-const incrementQuality = (item, incrementation = 1) => item.quality = item.quality + incrementation
+const incrementQuality = (item, incrementation = 1) => {
+  let newValue = item.quality + incrementation
+
+  if (newValue > 50) {
+    newValue = 50
+    return
+  }
+
+  item.quality = newValue
+}
 
 const decrementQuality = (item, decrementation = 1) => {
   let newValue = item.quality - decrementation
@@ -46,26 +55,25 @@ const checkNormalItems = item => {
 }
 
 const checkSpecialItems = item => {
-  if (item.quality < 50) {
-    if (item.name === 'Aged Brie')
-      incrementQuality(item, 2)
+  if (item.name === 'Aged Brie')
+    if (item.sell_in < 0) incrementQuality(item, 2)
+    else incrementQuality(item)
 
-    if (item.name == 'Backstage passes to a TAFKAL80ETC concert')
-      switch(true) {
-        case item.sell_in < 0:
-          item.quality = 0;
-        break;
-        case item.sell_in < 5:
-          incrementQuality(item, 3)
-        break;
-        case item.sell_in < 10:
-          incrementQuality(item, 2);
-        break;
-        default:
-          incrementQuality(item);
-        break;
-      }
-  }
+  if (item.name == 'Backstage passes to a TAFKAL80ETC concert')
+    switch(true) {
+      case item.sell_in < 0:
+        item.quality = 0;
+      break;
+      case item.sell_in < 5:
+        incrementQuality(item, 3)
+      break;
+      case item.sell_in < 10:
+        incrementQuality(item, 2)
+      break;
+      default:
+        incrementQuality(item)
+      break;
+    }
 }
 
 const checkLegendaryItems = item => {

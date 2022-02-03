@@ -19,10 +19,10 @@ describe('`updateQuality`', () => {
     expect(standardItem.quality).toBe(0);
   });
 
-  it('increments quality by 2 for Aged Brie', () => {
+  it('increments quality by 1 for Aged Brie when sell_in is above 0', () => {
     const agedBrie = new Item('Aged Brie', 2, 0);
     updateQuality([agedBrie]);
-    expect(agedBrie.quality).toBe(2);
+    expect(agedBrie.quality).toBe(1);
   });
 
   it('quality of Aged Brie is never more than 50', () => {
