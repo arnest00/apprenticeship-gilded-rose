@@ -47,24 +47,33 @@ const checkNormalItems = item => {
   modifyQuality(item, -1)
 }
 
+const checkAgedBrie = item => {
+  if (item.sell_in < 0) modifyQuality(item, 2)
+  else modifyQuality(item, 1)
+}
+
+const checkBackstagePasses = item => {
+  switch(true) {
+    case item.sell_in < 0:
+      item.quality = 0;
+    break;
+    case item.sell_in < 5:
+      modifyQuality(item, 3)
+    break;
+    case item.sell_in < 10:
+      modifyQuality(item, 2)
+    break;
+    default:
+      modifyQuality(item, 1)
+    break;
+  }
+}
+
 const checkSpecialItems = item => {
   if (item.name === 'Aged Brie')
-    item.sell_in < 0 ? modifyQuality(item, 2) : modifyQuality(item, 1)
+    checkAgedBrie(item)
   if (item.name == 'Backstage passes to a TAFKAL80ETC concert')
-    switch(true) {
-      case item.sell_in < 0:
-        item.quality = 0;
-      break;
-      case item.sell_in < 5:
-        modifyQuality(item, 3)
-      break;
-      case item.sell_in < 10:
-        modifyQuality(item, 2)
-      break;
-      default:
-        modifyQuality(item, 1)
-      break;
-    }
+    checkBackstagePasses(item)
 }
 
 const checkLegendaryItems = item => {
