@@ -49,8 +49,7 @@ const checkNormalItems = item => {
 
 const checkSpecialItems = item => {
   if (item.name === 'Aged Brie')
-    if (item.sell_in < 0) modifyQuality(item, 2)
-    else modifyQuality(item, 1)
+    item.sell_in < 0 ? modifyQuality(item, 2) : modifyQuality(item, 1)
   if (item.name == 'Backstage passes to a TAFKAL80ETC concert')
     switch(true) {
       case item.sell_in < 0:
