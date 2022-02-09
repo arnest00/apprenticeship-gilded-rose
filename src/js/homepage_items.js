@@ -27,11 +27,22 @@ const renderItemsOnHomepage = (items) => {
 };
 
 const bindEventListenToUpdateButton = (items) => {
+  const currentItems = items;
   const updateButton = document.getElementById('update-items-button');
   updateButton.addEventListener('click', (e) => {
     e.preventDefault();
-    updateQuality(items);
-    renderItemsOnHomepage(items);
+    updateQuality(currentItems);
+    renderItemsOnHomepage(currentItems);
+  });
+};
+
+const bindEventListenToResetButton = () => {
+  const resetButton = document.getElementById('reset-items-button');
+  resetButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    const resetItems = getNewItems();
+    renderItemsOnHomepage(resetItems);
+    bindEventListenToUpdateButton(resetItems);
   });
 };
 
@@ -39,6 +50,7 @@ const showItemsOnHomePage = () => {
   const items = getNewItems();
   renderItemsOnHomepage(items);
   bindEventListenToUpdateButton(items);
+  bindEventListenToResetButton();
 };
 
 showItemsOnHomePage();
