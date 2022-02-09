@@ -76,6 +76,14 @@ const checkSpecialItems = item => {
     checkBackstagePasses(item)
 }
 
+const checkConjuredItems = item => {
+  if (item.sell_in < 0) {
+    modifyQuality(item, -4)
+    return
+  }
+  modifyQuality(item, -2)
+}
+
 const checkLegendaryItems = item => {
   item.quality = item.quality
 }
@@ -87,6 +95,8 @@ export function updateQuality(items) {
     }
     if (SPECIAL_ITEMS.includes(items[i].name))
       checkSpecialItems(items[i])
+    else if (items[i].name.includes('Conjured'))
+      checkConjuredItems(items[i]);
     else if (LEGENDARY_ITEMS.includes(items[i].name))
       checkLegendaryItems(items[i])
     else checkNormalItems(items[i])
